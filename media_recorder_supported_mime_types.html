@@ -5,7 +5,7 @@
     <pre id="log"></pre>
     <script>
       function log(msg) {
-        document.getElementById('log').text += msg + '\n';
+        document.getElementById('log').textContent += msg + '\n';
       }
       log(`UserAgent: ${navigator.userAgent}`);
       const VIDEO_TYPES = ['webm', 'mp4', 'x-matroska', 'ogg'];
