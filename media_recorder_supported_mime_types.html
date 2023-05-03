@@ -1,0 +1,56 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <pre id="log"></pre>
+    <script>
+      function log(msg) {
+        document.getElementById('log').text += msg + '\n';
+      }
+      log(`UserAgent: ${navigator.userAgent}`);
+      const VIDEO_TYPES = ['webm', 'mp4', 'x-matroska', 'ogg'];
+      const AUDIO_TYPES = ['webm', 'mp3', 'mp4', 'x-matroska', 'ogg', 'wav'];
+
+      const VIDEO_CODECS = ['vp9', 'vp9.0', 'vp8', 'vp8.0', 'avc1', 'av1', 'h265', 'h.265', 'h264', 'h.264', 'mpeg', 'theora'];
+      const AUDIO_CODECS = ['opus', 'vorbis', 'aac', 'mpeg', 'mp4a', 'pcm'];
+
+      const testType = (mimeType) => {
+          if (MediaRecorder.isTypeSupported(mimeType)) {
+              log(` ${mimeType}`);
+          }
+      };
+
+      log('Supported Video MIME Types:');
+
+      for (let i = 0; i < VIDEO_TYPES.length; ++i) {
+          testType(`video/${VIDEO_TYPES[i]}`);
+          for (let j = 0; j < VIDEO_CODECS.length; ++j) {
+              testType(`video/${VIDEO_TYPES[i]};codecs=${VIDEO_CODECS[j]}`);
+          }
+      }
+
+      log('Supported Audio MIME Types:');
+
+      for (let i = 0; i < AUDIO_TYPES.length; ++i) {
+          testType(`audio/${AUDIO_TYPES[i]}`);
+          for (let j = 0; j < AUDIO_CODECS.length; ++j) {
+              testType(`audio/${AUDIO_TYPES[i]};codecs=${AUDIO_CODECS[j]}`);
+          }
+      }
+
+      log('Supported Video/Audio MIME Types:');
+
+      for (let i = 0; i < VIDEO_TYPES.length; ++i) {
+          for (let j = 0; j < VIDEO_CODECS.length; ++j) {
+              for (let k = 0; k < AUDIO_CODECS.length; ++k) {
+                  testType(`video/${VIDEO_TYPES[i]};codecs=${VIDEO_CODECS[j]},${AUDIO_CODECS[k]}`);
+              }
+          }
+      }
+
+      log('Supported Other MIME Types:');
+      testType('video/webm;codecs=vp8,vp9,opus');
+      testType('video/webm;codecs=h264,vp9,opus');
+    </script>
+  </body>
+</html>
